@@ -222,6 +222,7 @@ p.partF {
 
 .resume-content p {
 	color: white;
+	text-shadow: 0 0 1px black;
 }
 
 @keyframes text_move {
