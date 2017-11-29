@@ -3,12 +3,13 @@ var gulp = require('gulp')
 var uglify = require('gulp-uglify')
 var cleanCSS = require('gulp-clean-css');
 var imagemin = require('gulp-imagemin');
-var pump = require('pump')
+var pump = require('pump');
+var bs = require('browser-sync').create();
 
 gulp.task('script', function(cb) {
 	pump([
 		gulp.src('js/*.js'),
-		uglify(),
+		uglify("es2015"),
 		gulp.dest('dist/js')
 	], cb)
 })
@@ -39,4 +40,22 @@ gulp.task('minify-image', (cb) => {
   ], cb)
 });
 
-gulp.task('default', ['script', 'minify-css', 'minify-image'])
+gulp.task('default', ['script', 'minify-css', 'minify-image']);
+
+// 监听
+// gulp.task('default', function() {
+// 	bs.init({
+// 		server: {
+// 			baseDir: './'
+// 		}
+// 	});
+// 	gulp.watch('./js/*.js', function() {
+// 		bs.reload();
+// 	})
+// 	gulp.watch('./css/*.css', function () {
+// 		bs.reload("*.css");
+// 	})
+// 	gulp.watch('./*/*.html', function () {
+// 		bs.reload();
+// 	})
+// })

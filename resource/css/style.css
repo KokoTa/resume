@@ -80,7 +80,7 @@ html, body {
 	top: 300px;
 }
 p.partF {
-	top: 290px;
+	top: 280px;
 }
 
 /* Wrap */
@@ -127,7 +127,7 @@ p.partF {
 /* About */
 
 #about, #about:before {
-	background: url('../img/bg1.jpeg') no-repeat center / cover;
+	background: url('../img/bg1.jpg') no-repeat center / cover;
 }
 #about h1 {
 	font-weight: bolder;
@@ -168,7 +168,7 @@ p.partF {
 /* Connect */
 
 #connect, #connect:before {
-	background: url('../img/bg2.jpeg') no-repeat center / cover;
+	background: url('../img/bg2.jpg') no-repeat center / cover;
 }
 
 .connect-ico {
@@ -202,7 +202,7 @@ p.partF {
 
 #resume, #resume:before {
 	text-align: center;
-	background: url('../img/bg3.jpeg') no-repeat center / cover;
+	background: url('../img/bg3.jpg') no-repeat center / cover;
 }
 
 .resume-content a {
@@ -210,7 +210,7 @@ p.partF {
 }
 
 .resume-content h1{
-	font-size: 80px;
+	font-size: 40px;
 	font-weight: bolder;
 	background: linear-gradient(to right, gray, black, gray);
 	background-size: 200%;

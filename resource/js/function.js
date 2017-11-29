@@ -27,9 +27,9 @@ $(function() {
 	})
 
 	var links = [
-		'https://kokota.github.io/resume/img/bg1.jpeg',
-		'https://kokota.github.io/resume/img/bg2.jpeg',
-		'https://kokota.github.io/resume/img/bg3.jpeg'
+		'https://kokota.github.io/resume/img/bg1.jpg',
+		'https://kokota.github.io/resume/img/bg2.jpg',
+		'https://kokota.github.io/resume/img/bg3.jpg'
 	]
 	var count = 0;
 	links.forEach(function(src) {
@@ -45,5 +45,4 @@ $(function() {
 			}
 		}
 	})
-
 })
