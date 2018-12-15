@@ -2,7 +2,7 @@
  * @Author: KokoTa
  * @Date: 2018-12-12 15:11:11
  * @Last Modified by: KokoTa
- * @Last Modified time: 2018-12-12 22:42:58
+ * @Last Modified time: 2018-12-15 20:52:19
  */
 
 class Ball {
@@ -77,11 +77,18 @@ class Ball {
   }
 }
 
-/**
- * 生成器
- */
 class Generator {
-  constructor(id, number=500, radiusRange=[2, 5], speedRange=[-0.5, 0.5], color='lightgray', acX=0.01, acY=0.01) {
+  /**
+   * 生成器构造函数
+   * @param {String} id 指向画布的选择器
+   * @param {Number} number 粒子数量
+   * @param {Array} radiusRange 粒子半径范围
+   * @param {Array} speedRange 粒子初始速度范围
+   * @param {String} color 粒子颜色
+   * @param {Number} acX 粒子 X 轴加速度
+   * @param {Number} acY 粒子 Y 轴加速度
+   */
+  constructor(id, number=500, radiusRange=[2, 5], speedRange=[-0.5, 0.5], color='rgba(255, 255, 255, .3)', acX=0.01, acY=0.01) {
     this.canvas = document.querySelector(id);
     this.context = this.canvas.getContext('2d');
     this.balls = [];
@@ -91,8 +98,10 @@ class Generator {
     this.color = color; // 粒子颜色
     this.acX = acX; // X 方向加速度
     this.acY = acY; // Y 方向加速度
-    this.clientWidth = this.canvas.clientWidth; // 画布宽度
-    this.clientHeight = this.canvas.clientHeight; // 画布高度
+    this.clientWidth = document.documentElement.clientWidth; // 画布宽度
+    this.clientHeight = document.documentElement.clientHeight; // 画布高度
+    this.animation = null; // 动画定时器
+    this.timer = null; // 窗口大小改变节流定时器
   }
   // 随机位置
   randomPosition() {
@@ -109,6 +118,23 @@ class Generator {
   }
   // 初始化
   init() {
+    // 画布大小自适应
+    window.addEventListener('resize', () => {
+      this.clientWidth = document.documentElement.clientWidth; // 画布宽度
+      this.clientHeight = document.documentElement.clientHeight; // 画布高度
+      // 节流
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.balls = [];
+        window.cancelAnimationFrame(this.animation);
+        this.init();
+      }, 500);
+    });
+
+    // 设置画布大小为全屏（不要设置成百分比）
+    this.canvas.width = this.clientWidth;
+    this.canvas.height = this.clientHeight;
+
     const number = this.number;
     // 获取小球列表
     for(let i = 0; i < number; i++) {
@@ -134,7 +160,7 @@ class Generator {
       const ball = this.balls[i];
       ball.draw(this.context);
     }
-    window.requestAnimationFrame(this.draw.bind(this));
+    this.animation = window.requestAnimationFrame(this.draw.bind(this));
   }
 }
 

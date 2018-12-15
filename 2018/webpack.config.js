@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: 'development',
@@ -8,7 +10,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[chunkhash:8].js',
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './dist')
   },
   module: {
     rules: [{
@@ -18,8 +20,31 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                quality: 60
+              },
+              pngquant: {
+                quality: 60
+              },
+              gifsicle: {
+                quality: 60
+              },
+              webp: {
+                quality: 60
+              }
+            }
+          }
+        ]
+      }
     ]
   },
   resolve: {
@@ -35,6 +60,16 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
     }),
+    new MiniCssExtractPlugin({
+      // 从 .js 文件中提取出来的 .css 文件的名称
+      // [name] 代表文件名称， [contenthash:8] 代表根据文件内容算出的8位 hash 值
+      filename: `[name].bundle.css`,
+      // 文件过大时会进行拆分
+      chunkFilename: "[id].css"
+    }),
+    // 将静态图片复制到输出目录
+    // 因为 entry 的 path 为 './'，output 的 path 为 './dist'，所以拼接路径如下
+    new CopyWebpackPlugin([{ from: './src/image', to: './image'}]),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
